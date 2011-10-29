@@ -39,6 +39,9 @@
          (lambda (self other direction)
            (set! exits (cons (cons direction other) exits))))
         
+        ((entities)
+         (lambda (self) entities))
+        
         ((exit-directions)
          (lambda (self)
            (map car exits)))

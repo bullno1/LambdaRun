@@ -19,7 +19,7 @@
         (else (get-method base message))))))
 
 (define (make-entity template)
-  (let* ((base (make-named-object "entity"))
+  (let* ((base (make-named-object (ask template 'name)))
          (components '())
          (self
           (lambda (message)
@@ -69,10 +69,19 @@
          (if (pair? template-entry)
              (ask component 'initialize (cdr template-entry)))
          (set! components (cons component components))))
-     template)
+     (ask template 'components))
     ;post-initialize
     (for-each
      (lambda (component)
        (ask component 'post-initialize))
      components)
     self))
+
+(define (make-template name components)
+  (let ((base (make-named-object name))
+        (components components))
+    (lambda (message)
+      (case message
+        ((components)
+         (lamda (self) components))
+        (else (get-method base message))))))
