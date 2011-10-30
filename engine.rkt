@@ -10,15 +10,19 @@
       (not (equal? "" token)))
     (regexp-split (regexp " ") string))))
 
-(define commands '())
+(define name->proc '())
+(define name->descriptor '())
 
 (define (register-command descriptor proc)
   (let ((names (dict-get descriptor 'names '())))
     (for-each
      (lambda (name)
-       (set! commands
-             (cons (list name proc descriptor)
-                   commands)))
+       (set! name->proc
+             (cons (cons name proc)
+                   name->proc))
+       (set! name->descriptor
+             (cons (list name descriptor)
+                   name->descriptor)))
      names)))
 
 (define (execute-string string)
@@ -41,13 +45,13 @@
             (else (error "Uknown type" (car arg-types))))))
     (helper args arg-types))
          
-  (if (null? string)
+  (if (or (null? string)
+          (not (string? (car string))))
       #f
-      (let* ((command-name (car string))
-             (command-entry (dict-get commands (string->symbol command-name))))
-        (if command-entry
-            (let* ((proc (car command-entry))
-                   (descriptor (cadr command-entry))
+      (let* ((command-name (string->symbol (car string)))
+             (proc (dict-get name->proc command-name)))
+        (if proc
+            (let* ((descriptor (dict-get name->descriptor command-name))
                    (args (cdr string))
                    (arg-types (dict-get descriptor 'args))
                    (arity (length arg-types))
@@ -68,3 +72,11 @@
               (display "Uknown command")
               (newline)
               #f)))))
+
+(define (prompt-and-execute-command)
+  (newline)
+  (display ">")
+  (let* ((input (read-line))
+         (time-passed (execute-string (tokenize input))))
+    (if (not time-passed)
+        (prompt-and-execute-command))))
