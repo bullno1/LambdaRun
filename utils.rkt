@@ -1,3 +1,4 @@
+
 (define (dict-get dict key . default)
   (let ((pair (assoc key dict)))
     (cond
@@ -30,3 +31,16 @@
   (display what)
   (newline)
   what)
+
+(define (loop from to op)
+    (if (< from to)
+        (begin
+          (op from)
+          (loop (+ from 1) to op))))
+
+(define (pair-up definitions acc)
+  (if (null? definitions)
+      acc
+      (pair-up (cddr definitions)
+               (cons (cons (car definitions) (cadr definitions))
+                     acc))))

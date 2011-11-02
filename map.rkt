@@ -1,16 +1,3 @@
-(define (loop from to op)
-    (if (< from to)
-        (begin
-          (op from)
-          (loop (+ from 1) to op))))
-
-(define (pair-up definitions acc)
-  (if (null? definitions)
-      acc
-      (pair-up (cddr definitions)
-               (cons (cons (car definitions) (cadr definitions))
-                     acc))))
-
 (define (make-area area-map . definitions)  
   (let ((mapdata (make-grid area-map))
         (rooms (pair-up definitions '())))

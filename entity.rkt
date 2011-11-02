@@ -131,4 +131,6 @@
 
 (define (make-desc constructor)
   (lambda (data)
-    (cons constructor data)))
+    (if (list? data)
+        (cons constructor data)
+        (error "This is a descriptor"))))
