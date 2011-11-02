@@ -76,7 +76,7 @@
 (define (prompt-and-execute-command)
   (newline)
   (display ">")
-  (let* ((input (read-line))
+  (let* ((input (prompt))
          (time-passed (execute-string (tokenize input))))
     (if (not time-passed)
         (prompt-and-execute-command))))

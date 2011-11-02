@@ -13,9 +13,20 @@
      (load (string-append (symbol->string file) ".rkt")))
    files))
 
+(define (prompt)
+  (let ((result (read-line)))
+    (if (eq? result eof)
+        ""
+        result)))
+
 (define (print-lines . msgs)
   (for-each
    (lambda (msg)
      (display msg)
      (newline))
    msgs))
+
+(define (debug what)
+  (display what)
+  (newline)
+  what)

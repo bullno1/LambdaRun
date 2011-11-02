@@ -1,3 +1,5 @@
+(require racket/mpair)
+
 (define (make-component name owner)
   (let ((base (make-named-object name)))
     (lambda (message)
@@ -16,10 +18,13 @@
         
         ((owner) (lambda (self) owner))
         
+        ((dump) (lambda (self) (void)))
+        
         (else (get-method base message))))))
 
 (define (make-entity template)
   (let* ((base (make-named-object (ask template 'name)))
+         (properties '())
          (components '())
          (self
           (lambda (message)
@@ -38,9 +43,33 @@
                  (ask self 'find-component (lambda (comp)
                                              (equal? name (ask comp 'name))))))
               
+              ((dump)
+               (lambda (self)
+                 (for-each (lambda (component)
+                             (display '------)(newline)                             
+                             (display (ask component 'name))(newline)
+                             (ask component 'dump)
+                             (newline))
+                           components)))
+              
+              ((get)
+               (lambda (name)
+                 (let ((pair (massoc name properites)))
+                   (if pair
+                       (cdr pair)
+                       #f))))
+              
+              ((set)
+               (lambda (name value)
+                 (let ((pair (massoc name properties)))
+                   (if pair
+                       (set-mcdr! pair value)
+                       (set! properties (mcons (mcons name value)
+                                               properties))))))
+              
               (else
                (let ((base-method (get-method base message)))
-                 (if base-method
+                 (if (not (no-method? base-method))
                      base-method
                      (lambda params
                        (let ((dispatched #f)
@@ -48,10 +77,10 @@
                          (for-each
                           (lambda (comp)
                             (let ((method (get-method comp message)))
-                              (if method
+                              (if (not (no-method? method))
                                   (begin
                                     (set! dispatched #t)
-                                    (set! result (apply method (cons comp params)))))))
+                                    (set! result (apply method (cons comp (cdr params))))))));replace self with comp
                           components)
                          (if dispatched
                              result))))))))))
@@ -77,11 +106,29 @@
      components)
     self))
 
-(define (make-template name components)
-  (let ((base (make-named-object name))
-        (components components))
+(define (make-template name . components)
+  (let ((base (make-named-object name)))
     (lambda (message)
       (case message
         ((components)
-         (lamda (self) components))
+         (lambda (self) components))
         (else (get-method base message))))))
+
+(define (extend-template template new-name . extensions)
+  (define (helper extensions acc)
+    (if (null? extensions)
+        acc
+        (let* ((entry (car extensions))
+               (key (if (pair? entry) (car entry) entry)))
+          (helper (cdr extensions)
+                  (cons entry
+                        (filter (lambda (entry)
+                                  (not (eq? (if (pair? entry) (car entry) entry)
+                                            key)))
+                                acc))))))
+  (apply make-template (cons new-name (helper extensions (ask template 'components)))))
+      
+
+(define (make-desc constructor)
+  (lambda (data)
+    (cons constructor data)))

@@ -1,0 +1,25 @@
+(define (make-talker owner)
+  (let ((base (make-component "talker" owner))        
+        (fallback (list "I don't know anything about that"))
+        (responds '()))
+    (lambda (message)
+      (case message
+        ((initialize)
+         (lambda (self data)           
+           (set! fallback (dict-get data 'fallback fallback))
+           (set! responds data)))
+        ((talk)
+         (lambda (self msg)
+           (display (ask owner 'name))
+           (display ": ")
+           (apply print-lines msg)))
+        ((enquire)
+         (lambda (self topic)
+           (let ((lines (dict-get responds (string->symbol topic))))             
+             (if lines
+                 (ask self 'talk lines)
+                 (ask self 'talk fallback)))))
+        
+        (else (get-method base message))))))
+
+(define talker (make-desc make-talker))
