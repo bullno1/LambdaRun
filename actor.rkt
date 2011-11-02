@@ -27,7 +27,7 @@
     (ask actors 'prepend self)
     self))
 
-(define ticker make-ticker)
+(define actor make-actor)
 
 (define (update-actors)
   (ask actors 'for-each

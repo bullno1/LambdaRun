@@ -1,8 +1,8 @@
 (define (make-room owner)
   (let ((base (make-component "room" owner))
-        (events '())
         (entities (make-list))
         (exits '()))
+    
     (lambda (message)
       (case message
         ((initialize)
@@ -11,15 +11,9 @@
         
         ((post-event)
          (lambda (self event)
-           (set! events (append events event))))
-        
-        ((process-event)
-         (lambda (self proc)
-           (for-each proc events)))
-        
-        ((clear-events)
-         (lambda (self)
-           (set! events '())))
+           (ask entities 'for-each
+                (lambda (entity)
+                  (ask entity 'on-room-event event)))))
         
         ((can-enter?)
          (lambda (self entity)
@@ -51,8 +45,8 @@
            (map cdr exits)))
         
         ((neighbor-towards)
-         (lambda (direction)
-           (dict-get exits direction)))
+         (lambda (self direction)
+           (dict-get exits direction #f)))
         
         (else (get-method base message))))))
 ;alias

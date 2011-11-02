@@ -43,8 +43,10 @@
                  (ask self 'find-component (lambda (comp)
                                              (equal? name (ask comp 'name))))))
               
-              ((dump)
+              ((dump)               
                (lambda (self)
+                 (display "Dumpping ")(newline)
+                 (display (ask self 'name))
                  (for-each (lambda (component)
                              (display '------)(newline)                             
                              (display (ask component 'name))(newline)
@@ -119,13 +121,13 @@
     (if (null? extensions)
         acc
         (let* ((entry (car extensions))
-               (key (if (pair? entry) (car entry) entry)))
+               (key (if (pair? entry) (car entry) entry)))          
           (helper (cdr extensions)
-                  (cons entry
-                        (filter (lambda (entry)
-                                  (not (eq? (if (pair? entry) (car entry) entry)
-                                            key)))
-                                acc))))))
+                  (append (filter (lambda (entry)
+                                    (not (eq? (if (pair? entry) (car entry) entry)
+                                              key)))
+                                  acc)
+                          (list entry))))))
   (apply make-template (cons new-name (helper extensions (ask template 'components)))))
       
 
