@@ -22,6 +22,10 @@
                (lambda (self rtime)
                  (set! rest-time (+ rest-time rtime))))
               
+              ((destroy)
+               (lambda (self)
+                 (ask actors' remove self)))
+              
               (else (get-method base message))))))
     ;register actor
     (ask actors 'prepend self)
@@ -31,7 +35,7 @@
 
 (define (update-actors)
   (ask actors 'for-each
-       (lambda (actor)
-         (if (<= (ask actor 'rest-time) 0);can act now
-             (ask (ask actor 'owner) 'act)
-             (ask actor 'cool-down)))))
+       (lambda (actr)
+         (if (<= (ask actr 'rest-time) 0);can act now
+             (ask (ask actr 'owner) 'act)
+             (ask actr 'cool-down)))))

@@ -20,12 +20,20 @@
    fighter
    destructible
    description
+   command-utils
+   item
+   weapon
    ;commands
    move-commands
    other-commands
    ;game data
+   ;templates
    data/base-templates
-   data/city
+   ;characters
+   data/joe
+   data/main-character
+   ;maps   
+   data/city   
    ))
 
 (print-lines
@@ -48,4 +56,20 @@
 
 (define character-name (prompt))
 
-(prompt-and-execute-command)
+(display "\"Good, so your memory is still functioning, ")
+(display character-name)
+(display "\"")
+(newline)
+(ask joe 'talk '("I am Joe, in case you forget."))
+(print-lines
+ "(Welcome to LambdaRun)"
+ "(Texts in parentheses are game tips)"
+ "(Try talking to Joe. He might know what to do next)"
+ "(To talk to a character, use ask/talk/@ <character name> <topic>)"
+ "(Omit the topic for a general greeting)" 
+ "(At any point in the game, you can access the ingame manual using the help command)"
+ "(Have fun playing)")
+
+(describe-room (ask main-character 'location))
+
+(start-game-loop)

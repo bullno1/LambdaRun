@@ -21,13 +21,11 @@
         
         ((add-entity)
          (lambda (self entity)
-           (ask entities 'prepend entity)
-           (ask self 'post-event (list 'entity-enter entity))))
+           (ask entities 'prepend entity)))
         
         ((remove-entity)
          (lambda (self entity)
-           (ask entities 'remove entity)
-           (ask self 'post-event (list 'entity-leave entity))))
+           (ask entities 'remove entity)))
         
         ((link)
          (lambda (self other direction)

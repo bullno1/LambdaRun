@@ -9,9 +9,12 @@
         ((move-to)
          (lambda (self new-loc)
            (if (not (null? location))
-               (ask location 'remove-entity owner))
+               (begin (ask location 'remove-entity owner)
+                      (ask location 'post-event `(entity-left ,owner ,new-loc))))
+           
            (set! location new-loc)
-           (ask location 'add-entity owner)))
+           (ask location 'add-entity owner)
+           (ask location 'post-event `(entity-entered ,owner))))
         
         ((destroy)
          (lambda (self)

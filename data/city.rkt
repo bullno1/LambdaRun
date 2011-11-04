@@ -1,21 +1,3 @@
-(define main-char-script
-  (script
-   "description-of-main-char"
-   'describe
-   (lambda (self)
-     (display "Your name is ")
-     (display character-name)
-     (display " in case you've forgotten"))))
-
-(define main-character
-  (make-entity
-   (extend-template
-    character
-    "you"    
-    (destructible 
-     '((hp 100)))
-    main-char-script)))
-
 (define city-map
   '((__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __)
     (__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __)
@@ -46,10 +28,20 @@
    (dummy-room)
    
    'by;back yard
-   (dummy-room)
+   (let ((here (make-entity
+                (make-template
+                 "Backyard"
+                 room
+                 (description "Pretty big for such a small house.")))))
+     here)
    
    'x0;cross road
-   (dummy-room)
+   (let ((here (make-entity
+                (make-template
+                 "Crossroad"
+                 room
+                 (description "Not many people around")))))
+     here)
    
    'gy;gym
    (dummy-room)
@@ -82,5 +74,6 @@
                  room
                  (description "It's small but cozy")))))
      (ask main-character 'move-to here)
+     (ask joe 'move-to here)
      here)
    ))

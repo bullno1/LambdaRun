@@ -13,7 +13,7 @@
         
         ((find)
          (lambda (self pred)
-           (findf pred self)))
+           (findf pred data)))
         
         ((with-data)
          (lambda (self op)

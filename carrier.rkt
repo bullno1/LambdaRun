@@ -20,6 +20,16 @@
          (lambda (self item)
            (ask inventory 'remove item)))
         
+        ((take-item)
+         (lambda (self item)
+           (ask item 'give owner)
+           (ask (ask owner 'location) 'post-event `(take-item ,owner ,item))))
+        
+        ((drop-item)
+         (lambda (self item)
+           (ask item 'drop (ask owner 'location))
+           (ask (ask owner 'location) 'post-event `(drop-item ,owner))))
+        
         (else (get-method base message))))))
 
 (define carrier (make-desc make-carrier))

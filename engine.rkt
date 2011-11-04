@@ -80,3 +80,8 @@
          (time-passed (execute-string (tokenize input))))
     (if (not time-passed)
         (prompt-and-execute-command))))
+
+(define (start-game-loop)
+  (update-tickers)
+  (update-actors)
+  (start-game-loop))

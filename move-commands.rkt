@@ -12,6 +12,8 @@
                 (ask target 'can-enter? main-character))
            (begin
              (ask main-character 'move-to target)
+             (ask main-character 'add-rest-time 2)
+             (describe-room target)
              #t)
            (begin
              (print-lines "You can't go there")

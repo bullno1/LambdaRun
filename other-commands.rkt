@@ -32,12 +32,14 @@
   (display (ask room 'name))
   (newline)
   (ask room 'describe)
+  (newline)
   ;list objects
   (let ((entities (ask room 'entities)))
     (print-lines "Things in this room:")
     (ask entities 'for-each
          (lambda (ent)
            (print-lines (ask ent 'name)))))
+  (newline)
   ;list exits
   (let ((exits (ask room 'exit-directions)))
     (print-lines "Available exits:")
@@ -53,3 +55,16 @@
   (display (ask object 'name))
   (newline)
   (ask object 'describe))
+
+(register-command
+ '((names (talk t @))
+   (args (string))
+   (vararg? #t))
+ (lambda (target-name . topic)
+   (let ((target (get-object-in-room target-name))
+         (topic (if (null? topic) "default" (car topic))))
+     (cond
+       ((eq? target main-character) (print-lines "Talking to yourself huh? Forever alone"))
+       (target (ask target 'enquire topic))
+       (else (print-lines "Huh? Who are you trying to talk to?")))
+     #f)))

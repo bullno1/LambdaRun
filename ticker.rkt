@@ -16,5 +16,5 @@
 (define ticker make-ticker)
 
 (define (update-tickers)
-  (ask ticker 'for-each (lambda (ticker)
-                          (ask (ask ticker 'owner) 'tick))))
+  (ask tickers 'for-each (lambda (tck)
+                           (ask (ask tck 'owner) 'tick))))
