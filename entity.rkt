@@ -54,15 +54,15 @@
                              (newline))
                            components)))
               
-              ((get)
-               (lambda (name)
-                 (let ((pair (massoc name properites)))
+              ((get-property)
+               (lambda (self name)
+                 (let ((pair (massoc name properties)))
                    (if pair
                        (cdr pair)
                        #f))))
               
-              ((set)
-               (lambda (name value)
+              ((set-property)
+               (lambda (self name value)
                  (let ((pair (massoc name properties)))
                    (if pair
                        (set-mcdr! pair value)
@@ -129,10 +129,12 @@
                                   acc)
                           (list entry))))))
   (apply make-template (cons new-name (helper extensions (ask template 'components)))))
-      
+
+(define (has-a? ent name)
+  (ask ent 'find-component-by-name name))
 
 (define (make-desc constructor)
   (lambda (data)
     (if (list? data)
         (cons constructor data)
-        (error "This is a descriptor"))))
+        (error "This is a descriptor for " constructor))))

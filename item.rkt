@@ -1,7 +1,7 @@
 (define (make-item owner)
-  (let ((base (make-item "item" owner))
-        (location null)
-        (holder null)
+  (let ((base (make-component "item" owner))
+        (location #f)
+        (holder #f)
         (hardness 0))
     (lambda (message)
       (case message
@@ -13,11 +13,11 @@
          (lambda (self room)
            (if (not (ask room 'find-component-by-name "room"))
                (error "An item can only be dropped into a room"))
-           (if carrier
-               (ask carrier 'remove-item owner))
+           (if holder
+               (ask holder 'remove-item owner))
            (ask room 'add-entity owner)
            (set! location room)
-           (set! holder null)))
+           (set! holder #f)))
         
         ((give)
          (lambda (self carrier)
@@ -27,7 +27,7 @@
                (ask location 'remove-entity owner))
            (ask carrier 'add-item owner)
            (set! holder carrier)
-           (set! location null)))
+           (set! location #f)))
         
         ((owned)
          (lambda (self) (null? holder)))

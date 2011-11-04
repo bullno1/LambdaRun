@@ -72,8 +72,12 @@
                 (make-template
                  "Joe's house"
                  room
-                 (description "It's small but cozy")))))
+                 (description "It's small but cozy"))))
+         (gun (make-entity johnson-gun))
+         (medkit (make-entity big-medkit)))
      (ask main-character 'move-to here)
      (ask joe 'move-to here)
+     (ask gun 'give joe)
+     (ask medkit 'drop here)
      here)
    ))

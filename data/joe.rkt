@@ -9,10 +9,10 @@
      (secret ("You really don't remember it?"
               "The evil plan of *NeoHydro*?"
               "I think you hit your head on the ground really hard when that guy got you"))
-     (NeoHydro ("It's a water supply company, the biggest in the world."
+     (NeoHydro ("It's a bottled water and soft drink company, the biggest in the world."
                 "It's famous for using *nanobot*s in water purification."
-                "During our project, we discovered that those *nanobot*s are not just used in water purification."
-                "We found a large amount of them in NeoHydro's products."))
+                "We accidentally discovered that those *nanobot*s are not just used in water purification."
+                "We found a large amount of them in some NeoHydro's products."))
      (nanobot ("We have extracted the program of one of those *nanobot*s"
                "After reverse-engineering, it turns out that those *nanobot*s can take total control of your bodies"
                "They can alter metabolism, control the nervous system and various other stuffs that we have not discovered"
@@ -37,7 +37,7 @@
 
 (define joe-desc
   (description
-   "If your memory has not failed you. Joe is from the same college as you. You two worked together on a project. Then, you two discovered a dirty *secret* that eventually led to a *hit* order on you."))
+   "If your memory has not failed you, his name is Joe. You two worked together on a project. Then, you discovered a dirty *secret* that eventually led to a *hit* order on you."))
 
 
 (define joe-script
@@ -66,6 +66,11 @@
           
           ((equal? topic "combat")
            (combat-dialog))))
+      
+      'on-attacked
+      (lambda (self attacker)
+        (if (eq? attacker main-character)
+            (ask joe 'talk '("Oi! What are you doing?"))))
       ))))
    
    
@@ -75,7 +80,7 @@
     character
     "Joe"
     (destructible
-     '((100)))    
+     '((max-hp 200)))
     joe-script
     joe-talk
     joe-desc)))
@@ -93,9 +98,9 @@
             ((1)
              (ask joe 'talk '("First in order to engage in combat, you will nead a *weapon*"
                               "I'll give you one later."
-                              "Pick it up with the pickup command"
+                              "Pick it up with the take command"
                               "Then equip it using the equip command"
-                              "To attack a target with the currently equipped weapon, use the attack command"
+                              "To attack a target with the currently equipped weapon, use the attack command"                              
                               "You can learn more about commands from the game manual"
                               "What's a command you ask? It's what you type into that prompt"
                               "Yes, I'm breaking the fourth wall here, I know"))
@@ -110,7 +115,7 @@
                               "Actually to use firearms effectively, you need skills too"
                               "About thrown weapon, you can throw pretty much anything, however those with sharp edges like throwing knifes"
                               "or explosives will deal more damage"
-                              "Thrown weapons don't need to be equipped. Just use the throw command"))
+                              "Thrown weapons don't need to be equipped. Just use the use command"))
              (combat-dialog))
             
             ((3)
@@ -128,6 +133,30 @@
             ((5)
              (if (not training-done)
                  (begin
-                   (ask joe 'talk ("OK, let's begin *combat* training"))
+                   (set! training-done #t)
+                   (ask joe 'talk '("OK, let's begin *combat* training"
+                                    "Take this gun and shoot the dummy"))
+                   (ask (make-entity dessert-pigeon) 'drop (ask joe 'location))
+                   (print-lines "Joe dropped a dessert-pigeon"
+                                "Joe took out his phone, pressed something and a trainning dummy popped out from the ground")
+                   (ask (make-entity
+                         (make-template
+                          "dummy"
+                          dweller
+                          (destructible '((max-hp 40)))
+                          (script
+                           'destroy
+                           (lambda (self)
+                             (ask joe 'talk '("Good job! Now, here's the plan."
+                                              "I have this memory card which contains a program that will destroy their *server*"
+                                              "However, the *server* cannot be accessed remotely"
+                                              "We will have to find the *server* and upload it directly"
+                                              "It's not in *NeoHydra*'s headquarter though"))
+                             (newline)
+                             (print-lines "Suddenly, you hear a gunshot")
+                             (newline)
+                             (ask joe 'talk '("Sniper!! Take cover!! Find Bull, the hacker. He will know how to get to the *server*"))
+                             (ask joe 'damage 9999999)))))
+                        'move-to (ask joe 'location))
                    )))
             ))))

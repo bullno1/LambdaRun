@@ -23,17 +23,20 @@
    command-utils
    item
    weapon
+   combat
    ;commands
    move-commands
    other-commands
    ;game data
    ;templates
    data/base-templates
+   data/weapons
+   data/items
    ;characters
    data/joe
    data/main-character
    ;maps   
-   data/city   
+   data/city
    ))
 
 (print-lines
@@ -42,7 +45,7 @@
  "The world has changed rapidly since then with the development of nano technology."
  "It feels like another world now."
  "...." 
- "You are heading back to your dorm after a long tiring day in college"
+ "You are heading back home after a long tiring day"
  "Suddenly, BANG"
  "You feel something warm in your chest"
  "BLOOD!!"

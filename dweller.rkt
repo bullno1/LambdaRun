@@ -16,9 +16,16 @@
            (ask location 'add-entity owner)
            (ask location 'post-event `(entity-entered ,owner))))
         
+        ((post-event)
+         (lambda (self event)
+           (ask location 'post-event event)))
+        
         ((destroy)
          (lambda (self)
-           (ask location 'remove-entity owner)))
+           (ask location 'remove-entity owner)
+           (display (ask owner 'name))
+           (display " went to heaven")
+           (newline)))
         
         (else (get-method base message))))))
 

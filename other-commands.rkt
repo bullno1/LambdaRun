@@ -51,9 +51,6 @@
               exits)))
    
 (define (describe-object object)
-  (display "This is ")
-  (display (ask object 'name))
-  (newline)
   (ask object 'describe))
 
 (register-command
@@ -68,3 +65,73 @@
        (target (ask target 'enquire topic))
        (else (print-lines "Huh? Who are you trying to talk to?")))
      #f)))
+
+(register-command
+ '((names (take))
+   (args (string))
+   (vararg? #f))
+ (lambda (target-name)
+   (let ((target (get-object-in-room target-name)))
+     (cond
+       ((not target) (print-lines "It's not here") #f)
+       ((not (ask target 'find-component-by-name "item")) (print-lines "You can't pick that up") #f)
+       (else
+        (ask main-character 'take-item target)
+        (ask main-character 'add-rest-time 1)
+        #t)))))
+
+(register-command
+ '((names (equip e))
+   (args (string))
+   (vararg? #f))
+ (lambda (item-name)
+   (let ((item (ask (ask main-character 'inventory) 'find
+                    (lambda (item)
+                      (equal? (ask item 'name) item-name)))))
+     (if item
+         (begin
+           (ask main-character 'equip item)
+           (display "You equipped ")
+           (display item-name)
+           (newline)
+           (ask main-character 'add-rest-time 1)
+           #t)
+         (begin
+           (print-lines "You don't have that")
+           #f)))))
+
+(register-command
+ '((names (inventory i))
+   (args ())
+   (vararg? #f))
+ (lambda ()
+   (let* ((inventory (ask (ask main-character 'inventory) 'data))
+          (options (append (map (lambda (item)
+                                  (ask item 'name))
+                                inventory)
+                           '("quit"))))
+     (menu "Choose an item to see its description"
+           options
+           (lambda (choice)
+             (if (<= choice (length inventory))
+                 (describe-object (list-ref inventory (- choice 1))))
+             #f)))))
+
+(register-command
+ '((names (use u))
+   (args (string))
+   (vararg? #t))
+ (lambda (item-name . target-name)
+   (let* ((item (ask (ask main-character 'inventory) 'find
+                    (lambda (item)
+                      (equal? (ask item 'name) item-name))))
+          (target (cond
+                    ((null? target-name) main-character)
+                    (else (get-object-in-room (car target-name))))))
+     (cond
+       ((not item) (print-lines "You don't have that item") #f)
+       ((not target) (print-lines "Target is not in the room") #f)
+       ((ask item 'find-component-by-name "weapon") (print-lines "A weapon must be equipped first"))
+       (else
+        (ask item 'use main-character target)
+        )))))

@@ -27,6 +27,13 @@
      (newline))
    msgs))
 
+(define (display-multi . args)
+  (for-each
+   (lambda (arg)
+     (display arg))
+   args)
+  (newline))
+
 (define (debug what)
   (display what)
   (newline)

@@ -18,10 +18,22 @@
        ((entity-left)
         (let ((entity (cadr event))
               (dest (caddr event)))
-          (display (ask entity 'name))
-          (display " moved to ")
-          (display (ask dest 'name))
-          (newline)))))))
+          (display-multi (ask entity 'name) " moved to " (ask dest 'name))))
+       
+       ((take-item)
+        (let ((entity (cadr event))
+              (item (caddr event)))
+          (display-multi (ask entity 'name) " took " (ask item 'name))))
+       
+       ((drop-item)
+        (let ((entity (cadr event))
+              (item (caddr event)))
+          (display-multi (ask entity 'name) " dropped " (ask item 'name))))
+       ))
+   
+   'destroy
+   (lambda (self)
+     (print-lines "Game over :("))))
 
 (define main-character
   (make-entity
@@ -29,5 +41,5 @@
     character
     "you"    
     (destructible 
-     '((hp 100)))
+     '((max-hp 200)))
     main-char-script)))

@@ -2,9 +2,12 @@
   (map
    (lambda (token);try to convert number if possible
      (let ((number (string->number token)))
-       (if number
-           number
-           token)))
+       (cond
+         (number number)
+         ((or (equal? token "me")
+              (equal? token "self"))
+          "you")
+         (else token))))
    (filter;remove blank tokens
     (lambda (token)
       (not (equal? "" token)))

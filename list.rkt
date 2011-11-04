@@ -19,6 +19,10 @@
          (lambda (self op)
            (op data)))
         
+        ((data)
+         (lambda (self)
+           data))
+        
         ((for-each)
          (lambda (self op)
            (for-each op data)))

@@ -28,7 +28,7 @@
         ((drop-item)
          (lambda (self item)
            (ask item 'drop (ask owner 'location))
-           (ask (ask owner 'location) 'post-event `(drop-item ,owner))))
+           (ask (ask owner 'location) 'post-event `(drop-item ,owner ,item))))
         
         (else (get-method base message))))))
 
