@@ -35,10 +35,19 @@
      (Scheme ("Now is the time for fighting, not coding"))
      (combat ("In a nutshell. Grab a *weapon*, attack your opponent until he dies. What aspects of it do you want to know more about?")))))
 
-(define joe-desc
-  (description
-   "If your memory has not failed you, his name is Joe. You two worked together on a project. Then, you discovered a dirty *secret* that eventually led to a *hit* order on you."))
-
+(define joe-desc  
+  (long-description '("If your memory has not failed you, his name is Joe."
+                      "You two worked together on a project."
+                      "Then, you discovered a dirty *secret* that eventually led to a *hit* ordered on you."
+                      ""
+                      "  ,,,,,"
+                      " |     |"
+                      " |_   _|"
+                      "(|  ^  |)"
+                      " | -=- |"
+                      "  \\___/"
+                      "  |   |"
+                      )))
 
 (define joe-script
   ((lambda ()
@@ -67,6 +76,12 @@
           ((equal? topic "combat")
            (combat-dialog))))
       
+      'destroy
+      (lambda (self)
+        (ask bull
+             'move-to 
+             (cdr (assoc 'x0 city))))
+      
       'on-attacked
       (lambda (self attacker)
         (if (eq? attacker main-character)
@@ -75,16 +90,34 @@
    
    
 (define joe
-  (make-entity
-   (extend-template
-    character
-    "Joe"
-    (destructible
-     '((max-hp 200)))
-    joe-script
-    joe-talk
-    joe-desc)))
-
+  (let ((joe (make-entity
+              (extend-template
+               character
+               "Joe"
+               (destructible
+               '((max-hp 200)))
+               joe-script
+               joe-talk
+               joe-desc)))
+        (gun (make-entity johnson-gun))
+        (picture
+         (make-entity
+          (make-template
+           "picture-of-Bull"
+           (item '((hardness 100)))
+           (long-description '("Picture of the hacker you need to find"
+                               ""
+                               "  #####"
+                               " #### _\\_"
+                               " ##=-[.].]"
+                               " #(    _\\ "
+                               "  #   __| "
+                               "   \\  _/  "
+                               ".--'--'-. "))))))
+    (ask gun 'give joe)
+    (ask picture 'give joe)
+    joe))
+    
 (define training-done #f)
 (define (combat-dialog)
   (menu "Tell Joe:"
@@ -142,9 +175,14 @@
                    (ask (make-entity
                          (make-template
                           "dummy"
-                          dweller
-                          (destructible '((max-hp 40)))
+                          (long-description '("A trainning dummy"
+                                              ""
+                                              "   O"
+                                              "  /|\\"
+                                              "  / \\"))
+                          
                           (script
+                           "dummy-script"
                            'destroy
                            (lambda (self)
                              (ask joe 'talk '("Good job! Now, here's the plan."
@@ -156,7 +194,11 @@
                              (print-lines "Suddenly, you hear a gunshot")
                              (newline)
                              (ask joe 'talk '("Sniper!! Take cover!! Find Bull, the hacker. He will know how to get to the *server*"))
-                             (ask joe 'damage 9999999)))))
+                             (ask joe 'damage 9999999)                             
+                             ))
+                          
+                          dweller
+                          (destructible '((max-hp 40)))))
                         'move-to (ask joe 'location))
                    )))
             ))))

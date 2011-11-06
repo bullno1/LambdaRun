@@ -12,11 +12,11 @@
            (ask owner 'post-event `(equip ,owner ,item))))
         
         ((unequip)
-         (lambda (self item)
+         (lambda (self)
            (set! equipped-item #f)))
         
-        ((get-equipped-item)
-         (equipped-item))
+        ((equipped-item)
+         (lambda (self) equipped-item))
         
         ((attack)
          (lambda (self target)
@@ -34,11 +34,10 @@
               (let ((improvised-melee-accuracy (ask owner 'get-property 'improvised-melee-accuracy)))
                 (display-multi (ask owner 'name) " attacked " (ask target 'name) " using " (ask equipped-item 'name))
                 (if improvised-melee-accuracy
-                    (if (perform-attack owner
+                    (perform-attack owner
                                     target
                                     (ask equipped-item 'hardness)
                                     improvised-melee-accuracy)
-                        (display-multi "Damage: " (ask equipped-item 'hardness)))
                     (ask owner 'add-rest-time 5)))))))
         
         (else (get-method base message))))))

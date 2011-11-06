@@ -52,7 +52,6 @@
                      (if (perform-attack attacker target damage accuracy)
                          (set! hit (+ hit 1)))
                      (ask attacker 'add-rest-time cost)))
-             (display-multi "Damage: " damage " x " hit " = " (* damage hit))
              (newline))))
         
         (else (get-method base message))))))

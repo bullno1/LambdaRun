@@ -18,7 +18,9 @@
         
         ((remove-item)
          (lambda (self item)
-           (ask inventory 'remove item)))
+           (ask inventory 'remove item)
+           (if (eq? (ask owner 'equipped-item) item)
+               (ask owner 'unequip))))
         
         ((take-item)
          (lambda (self item)
@@ -29,6 +31,12 @@
          (lambda (self item)
            (ask item 'drop (ask owner 'location))
            (ask (ask owner 'location) 'post-event `(drop-item ,owner ,item))))
+        
+        ((destroy)
+         (lambda (self)
+           (ask inventory 'for-each
+                (lambda (item)
+                  (ask self 'drop-item item)))))
         
         (else (get-method base message))))))
 

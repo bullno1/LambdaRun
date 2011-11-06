@@ -1,14 +1,14 @@
 (define city-map
   '((__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __)
-    (__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __)
+    (__ __ __ __ __ __ __ __ __ wr __ __ __ __ __ __ __ __)
     (__ __ __ __ __ __ __ __ __ l1 __ __ __ __ __ __ __ __)
-    (__ __ __ __ __ __ __ __ wc g0 l0 __ __ __ __ __ __ __)
-    (__ __ __ __ __ __ __ gy __ ge __ __ __ __ __ __ __ __)
-    (__ __ __ __ __ __ pk x0 br da __ __ __ __ __ __ __ __)
-    (__ __ __ __ __ __ __ ho __ ce __ __ __ __ __ __ __ __)
+    (__ __ __ __ __ __ __ __ wc g0 l0 cr bs sr __ __ __ __)
+    (__ __ __ __ __ __ __ cs __ ge __ __ __ __ __ __ __ __)
+    (__ __ __ __ __ __ pk x0 lr da __ __ __ __ __ __ __ __)
+    (__ __ __ __ __ __ __ ho __ __ __ __ __ __ __ __ __ __)
     (__ __ __ __ __ __ __ by __ __ __ __ __ __ __ __ __ __)
     (__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __)
-    (__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __)    
+    (__ __ __ __ __ __ __ __ __ __ __ __ __ hr __ __ __ __)
     ))
 
 (define (dummy-room)
@@ -24,9 +24,9 @@
    'da;dark alley
    (dummy-room)
    
-   'br;bar
+   'lr;long road
    (dummy-room)
-   
+   ; ლ(ಠ益ಠლ)
    'by;back yard
    (let ((here (make-entity
                 (make-template
@@ -40,14 +40,27 @@
                 (make-template
                  "Crossroad"
                  room
-                 (description "Not many people around")))))
+                 (description "Not many people around")
+                 (long-description '("           /        /"
+                                     "          /        /"
+                                     "________ /        /_____"
+                                     ""
+                                     "_______         _______"
+                                     "      /        /"
+                                     "     /        /"
+                                     "    /        /"
+                                     "   /        /"))
+                                   ))))
      here)
    
    'gy;gym
    (dummy-room)
    
-   'pk;park
-   (dummy-room)
+   'cs;park
+   (make-entity
+    (make-template
+     "Park"
+     (description "The park is closed for maintainance")))
    
    'ge;gang hideout entrance
    (dummy-room)
@@ -72,12 +85,21 @@
                 (make-template
                  "Joe's house"
                  room
-                 (description "It's small but cozy"))))
-         (gun (make-entity johnson-gun))
+                 (description "It's small but cozy")                    
+                 (long-description '("                ~~"
+                                     "               ~~"
+                                     "              ~~"
+                                     "             | |   "
+                                     "   __________|_|__ "
+                                     "  /               \\ "                                     
+                                     " |  __   ___   __  |  "
+                                     " | |  | |   | |  | |  "
+                                     " | |__| |   | |__| |  "
+                                     " |______|___|______|  ")))))
          (medkit (make-entity big-medkit)))
      (ask main-character 'move-to here)
-     (ask joe 'move-to here)
-     (ask gun 'give joe)
+     (ask joe 'move-to here)     
      (ask medkit 'drop here)
+     (ask (make-entity laser-saber) 'drop here)
      here)
    ))

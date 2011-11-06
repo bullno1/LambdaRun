@@ -4,9 +4,7 @@
    
    'describe
    (lambda (self)
-     (display "Your name is ")
-     (display character-name)
-     (display " in case you've forgotten"))
+     (display-multi "Your name is " character-name " in case you've forgotten"))
    
    'act
    (lambda (self)
@@ -29,6 +27,12 @@
         (let ((entity (cadr event))
               (item (caddr event)))
           (display-multi (ask entity 'name) " dropped " (ask item 'name))))
+       
+       ((equip)
+        (let ((entity (cadr event))
+              (item (caddr event)))
+          (display-multi (ask entity 'name) " equipped " (ask item 'name))))
+       
        ))
    
    'destroy
@@ -42,4 +46,11 @@
     "you"    
     (destructible 
      '((max-hp 200)))
+    (long-description '("  #####"
+                        " |     |"
+                        " |@   @|"
+                        "(|  ^  |)"
+                        " | -=- |"
+                        "  \\___/"
+                        "  |   |"))
     main-char-script)))

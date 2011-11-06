@@ -25,6 +25,12 @@
            (if (>= amount damage-threshold)
                (begin
                  (set! hp (- hp amount))
+                 (display-multi (let ((name (ask owner 'name)))
+                                  (if (equal? name "you")
+                                      "your"
+                                      (string-append name "'s")))
+                                " hp = "
+                                hp)
                  (if (<= hp 0)
                      (ask owner 'destroy))))))
         

@@ -25,7 +25,8 @@
            (ask location 'remove-entity owner)
            (display (ask owner 'name))
            (display " went to heaven")
-           (newline)))
+           (newline)
+           (set! location null)))         
         
         (else (get-method base message))))))
 

@@ -17,10 +17,6 @@
             (begin
               (ask room 'link target to)
               (ask target 'link room from)
-              ;(display (ask room 'name))
-              ;(display "<->")
-              ;(display (ask target 'name))
-              ;(newline)
               ))))
     
     (loop 0 

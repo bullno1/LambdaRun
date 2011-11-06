@@ -14,8 +14,15 @@
      (load (string-append (symbol->string file) ".rkt")))
    files))
 
+(define command-queue '())
+
 (define (prompt)
-  (let ((result (read-line)))
+  (let ((result (if (null? command-queue)
+                    (read-line)
+                    (let ((command (car command-queue)))
+                      (print-lines command)
+                      (set! command-queue (cdr command-queue))
+                      command))))
     (if (eq? result eof)
         ""
         result)))

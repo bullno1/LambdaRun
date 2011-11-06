@@ -24,6 +24,7 @@
    item
    weapon
    combat
+   skill
    ;commands
    move-commands
    other-commands
@@ -35,6 +36,7 @@
    ;characters
    data/joe
    data/main-character
+   data/bull
    ;maps   
    data/city
    ))
@@ -74,5 +76,21 @@
  "(Have fun playing)")
 
 (describe-room (ask main-character 'location))
+
+(set! command-queue
+      '("snsd"
+        "equip scythe"
+        "attack Joe"
+        "take laser-saber"
+        "equip laser-saber"
+        "l me"
+        "n"
+        "l Bull"
+        "skills"
+        "@ Bull implant"
+        "skills"
+        "skill judo-throw Bull"
+        "skill headshot Bull"
+        "skill judo-throw Bull"))
 
 (start-game-loop)

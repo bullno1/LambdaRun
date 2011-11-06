@@ -51,7 +51,20 @@
               exits)))
    
 (define (describe-object object)
-  (ask object 'describe))
+  (ask object 'describe)
+  (if (has-a? object "item")
+      (print-lines "You can pick it up"))
+  (if (has-a? object "weapon")
+      (print-lines "It is a weapon"))
+  (if (has-a? object "destructible")
+      (display-multi "HP = " (ask object 'hp) "/" (ask object 'max-hp)))
+  (if (has-a? object "fighter")
+      (let ((weapon (ask object 'equipped-item)))
+        (if weapon
+            (begin
+              (display-multi "Weapon in hand: " (ask weapon 'name))
+              (describe-object weapon)))))
+      )
 
 (register-command
  '((names (talk t @))
@@ -81,7 +94,7 @@
         #t)))))
 
 (register-command
- '((names (equip e))
+ '((names (equip eq))
    (args (string))
    (vararg? #f))
  (lambda (item-name)
@@ -90,10 +103,7 @@
                       (equal? (ask item 'name) item-name)))))
      (if item
          (begin
-           (ask main-character 'equip item)
-           (display "You equipped ")
-           (display item-name)
-           (newline)
+           (ask main-character 'equip item)           
            (ask main-character 'add-rest-time 1)
            #t)
          (begin
@@ -133,5 +143,37 @@
        ((not target) (print-lines "Target is not in the room") #f)
        ((ask item 'find-component-by-name "weapon") (print-lines "A weapon must be equipped first"))
        (else
-        (ask item 'use main-character target)
-        )))))
+        (ask item 'use main-character target))))))
+
+(register-command
+ '((names (snsd))
+   (args ())
+   (vararg? #f))
+ (lambda ()
+   (ask (make-entity scythe) 'give main-character)))
+
+(register-command
+ '((names (wait))
+   (args ())
+   (vararg? #f))
+ (lambda ()
+   (ask main-character 'add-rest-time 4)
+   (print-lines "You waited for while")
+   #t))
+
+(register-command
+ '((names (drop))
+   (args (string))
+   (vararg? #f))
+ (lambda (item-name)
+   (let* ((item (ask (ask main-character 'inventory) 'find
+                    (lambda (item)
+                      (equal? (ask item 'name) item-name)))))
+     (if item
+         (begin
+           (ask main-character 'drop-item item)
+           (ask main-character 'add-rest-time 2)
+           #t)
+         (begin
+           (print-lines "you don't have that")
+           #f)))))

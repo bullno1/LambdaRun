@@ -69,7 +69,7 @@
                  (newline)
                  #f)
                 (else
-                 (apply proc args))))                  
+                 (apply proc args))))
                    
             (begin
               (display "Uknown command")
