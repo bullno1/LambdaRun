@@ -45,7 +45,7 @@
     character
     "you"    
     (destructible 
-     '((max-hp 200)))
+     '((max-hp 300)))
     (long-description '("  #####"
                         " |     |"
                         " |@   @|"

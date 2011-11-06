@@ -30,7 +30,8 @@
         ((drop-item)
          (lambda (self item)
            (ask item 'drop (ask owner 'location))
-           (ask (ask owner 'location) 'post-event `(drop-item ,owner ,item))))
+           (ask (ask owner 'location) 'post-event `(drop-item ,owner ,item))
+           (ask owner 'add-rest-time 3)))
         
         ((destroy)
          (lambda (self)

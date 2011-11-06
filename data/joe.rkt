@@ -6,6 +6,7 @@
            "They have to get rid of you."
            "Luckily, I found you in time and replaced your failed heart with an artificial implant."
            "Man, that thing costs a fortune. Don't get shot again."))
+     (crate ("I forgot where the key for that crate is"))
      (secret ("You really don't remember it?"
               "The evil plan of *NeoHydro*?"
               "I think you hit your head on the ground really hard when that guy got you"))
@@ -95,7 +96,7 @@
                character
                "Joe"
                (destructible
-               '((max-hp 200)))
+               '((max-hp 200)))               
                joe-script
                joe-talk
                joe-desc)))

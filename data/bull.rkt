@@ -38,23 +38,12 @@
      
      'on-attacked
      (lambda (self attacker)
-        (if (eq? attacker main-character)
-            (set! hostile #t)))
-     
-     'act
-     (lambda (self)
-       (if (and (ask bull 'location) (ask saber 'location))
-           (ask bull 'take-item saber)       
-           (if (and hostile 
-                    (eq? (ask main-character 'location) (ask bull 'location)))
-               (cond
-                 ((ask bull 'equipped-item)
-                  (ask bull 'attack main-character))
-             
-                 ((and (eq? bull (ask saber 'holder)))
-                  (ask bull 'equip saber)
-                  (ask bull 'talk '("Die you will")))
-                 ))))
+        (if (and (eq? attacker main-character)
+                 (not hostile))
+            (begin
+              (set! hostile #t)
+              (ask bull 'talk '("A big mistake you've made"))
+              (ask bull 'attach-component (make-enemy-ai bull)))))
      
      'destroy
      (lambda (self)

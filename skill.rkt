@@ -7,8 +7,7 @@
         (ask target 'drop-item (ask target 'equipped-item)))
       (display-multi (ask user 'name) " can't disarm " (ask target 'name))))
 
-(define (headshot user target)
-  (define (perform-with-delay time op)
+(define (perform-with-delay time op)
     (let ((timer (make-entity
                   (make-template
                    "timer"
@@ -20,7 +19,8 @@
                       (op)
                       (ask (ask self 'owner) 'destroy)))))))
       (ask timer 'add-rest-time time)))
-  
+
+(define (headshot user target)  
   (display-multi (ask user 'name) " took a deep breath and aimed at " (ask target 'name))
   (perform-with-delay 10
                       (lambda ()                        
@@ -38,9 +38,13 @@
   (ask user 'attack target))
 
 (define (judo-throw user target)
-  (display-multi (ask user 'name) " grabbed " (ask target 'name) "'s arm and threw " (ask target 'name) " to the ground")
-  (ask target 'add-rest-time 20)
-  (ask user 'add-rest-time 7))
+  (display-multi (ask user 'name) " grabbed " (ask target 'name) "'s arm")
+  (ask user 'add-rest-time 7)
+  (if (< (random 100) 60)
+      (begin
+        (display-multi (ask user 'name) " threw " (ask target 'name) " to the ground")
+        (ask target 'add-rest-time 20))
+      (display-multi (ask target 'name) " escaped from " (ask user 'name) "'s grab")))
 
 (define skill-set null)
 

@@ -103,8 +103,7 @@
                       (equal? (ask item 'name) item-name)))))
      (if item
          (begin
-           (ask main-character 'equip item)           
-           (ask main-character 'add-rest-time 1)
+           (ask main-character 'equip item)                      
            #t)
          (begin
            (print-lines "You don't have that")
@@ -150,7 +149,8 @@
    (args ())
    (vararg? #f))
  (lambda ()
-   (ask (make-entity scythe) 'give main-character)))
+   (ask (make-entity scythe) 'give main-character)
+   (print-lines "Something entered your pocket")))
 
 (register-command
  '((names (wait))
@@ -171,8 +171,7 @@
                       (equal? (ask item 'name) item-name)))))
      (if item
          (begin
-           (ask main-character 'drop-item item)
-           (ask main-character 'add-rest-time 2)
+           (ask main-character 'drop-item item)           
            #t)
          (begin
            (print-lines "you don't have that")

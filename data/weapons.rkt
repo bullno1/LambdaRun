@@ -4,7 +4,7 @@
    (item '((hardness 6)))
    (weapon '((cost 5)
              (damage 30)
-             (accuracy 80)))
+             (accuracy 70)))
    (simple-weapon '((attack-count 1)))
    (description "A basic gun. Moderate accuracy. Moderate damage")
    (long-description '(" ,------------,---------,-------------^--,"
@@ -25,8 +25,8 @@
    (item '((hardness 10)))
    (weapon '((cost 2)
              (damage 20)
-             (accuracy 40)))
-   (simple-weapon '((attack-count 20)))
+             (accuracy 30)))
+   (simple-weapon '((attack-count 13)))
    (description "Created by Johnson, brother of Thompson. It sprays bullet. However, it is not very accurate.")
    (long-description '("         ___...-------------------|xxxx|----,==================,----^,"
                        ",,,,...'''                        |xxxx|    |  _____________   |     |"
@@ -44,10 +44,10 @@
   (make-template
    "zombie-repellant"
    (item '((hardness 10)))
-   (weapon '((cost 10)
+   (weapon '((cost 7)
              (damage 110)
-             (accuracy 90)))
-   (simple-weapon '((attack-count 20)))
+             (accuracy 80)))
+   (simple-weapon '((attack-count 1)))
    (description "The perfect weapon for a zombie apocalypse. Relatively high damage. The only draw back is slow reload time")
    (long-description '("                        ____________________________________________#,"
                        "+===----....____,,...-''   [______] |________________________________|"
@@ -92,7 +92,7 @@
     (lambda (self attacker target)      
       (let ((weapon (ask target 'equipped-item)))
         (if (and weapon 
-                 (> (random 100) 50));50% chance of disarm
+                 (> (random 100) 40));40% chance of disarm
             (begin
               (ask target 'unequip)
               (ask target 'drop-item weapon))))))

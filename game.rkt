@@ -25,6 +25,7 @@
    weapon
    combat
    skill
+   enemy-ai
    ;commands
    move-commands
    other-commands
@@ -37,6 +38,8 @@
    data/joe
    data/main-character
    data/bull
+   data/gangsters
+   data/boss-room
    ;maps   
    data/city
    ))
@@ -77,20 +80,39 @@
 
 (describe-room (ask main-character 'location))
 
-(set! command-queue
-      '("snsd"
-        "equip scythe"
-        "attack Joe"
-        "take laser-saber"
-        "equip laser-saber"
-        "l me"
-        "n"
-        "l Bull"
-        "skills"
-        "@ Bull implant"
-        "skills"
-        "skill judo-throw Bull"
-        "skill headshot Bull"
-        "skill judo-throw Bull"))
+(if (equal? character-name "demo")
+    (set! command-queue
+          '("take big-medkit"
+            "snsd"
+            "equip scythe"
+            "attack Joe"
+            "l memory-card"
+            "take memory-card"
+            "take laser-saber"
+            "equip laser-saber"
+            "l me"
+            "n"
+            "l Bull"
+            "skills"
+            "@ Bull implant"
+            "attack Bull"
+            "e"
+            "n"
+            "attack gangster2"
+            "take blue-card"
+            "n"
+            "use big-medkit"
+            "attack gangster1"
+            "attack gangster2"
+            "w"
+            "take yellow-card"
+            "e"
+            "e"
+            "attack gangster3"
+            "take rainbow-card"
+            "e"
+            "l Ben"
+            "attack Ben"
+            "use memory-card server")))
 
 (start-game-loop)

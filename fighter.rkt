@@ -9,7 +9,8 @@
         ((equip)
          (lambda (self item)
            (set! equipped-item item)
-           (ask owner 'post-event `(equip ,owner ,item))))
+           (ask owner 'post-event `(equip ,owner ,item))
+           (ask owner 'add-rest-time 4)))
         
         ((unequip)
          (lambda (self)

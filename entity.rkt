@@ -31,6 +31,7 @@
             (case message
               ((attach-component)
                (lambda (self component)
+                 ;(display-multi "Attached " (ask component 'name) " to " (ask self 'name))
                  (set! components (cons component components))
                  (ask component 'post-initialize)))
               
