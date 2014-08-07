@@ -35,9 +35,9 @@
      'tick
      (lambda (self)
        (if (and (eq? (ask main-character 'location) (ask boss 'location))
-                (< (random 100) 7))
+                (< (random 100) 20))
            (begin
-             (ask Ben 'talk '("I will be able to control anyone in this world with the nanobot technology"
+             (ask boss 'talk '("I will be able to control anyone in this world with the nanobot technology"
                               "How cool is that?"))
              )))))))
 
