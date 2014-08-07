@@ -30,7 +30,7 @@
         ((remove)
          (lambda (self item-to-remove)
            (set! data (filter (lambda (item)
-                                (not (equal? item item-to-remove)))
+                                (not (eq? item item-to-remove)))
                               data))))
         
         (else (get-method base message))))))

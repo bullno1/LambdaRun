@@ -69,9 +69,10 @@
     'use
     (lambda (self user target)
       (if (eq? target server)
+        (begin
           (print-lines "You inserted the memory card into the server"
                        "The server blows up"
                        "NeoHydra's evil plan is thwarted"
                        "Congratulation, you've won"
-                       "Secret code: snsd")
-          (print-lines "You can't do that"))))))
+                       "Secret code: snsd"))
+        (print-lines "You can't do that"))))))

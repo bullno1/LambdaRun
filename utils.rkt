@@ -1,4 +1,3 @@
-
 (define (dict-get dict key . default)
   (let ((pair (assoc key dict)))
     (cond
@@ -23,7 +22,7 @@
                       (print-lines command)
                       (set! command-queue (cdr command-queue))
                       command))))
-    (if (eq? result eof)
+    (if (eq? result 'eof)
         ""
         result)))
 

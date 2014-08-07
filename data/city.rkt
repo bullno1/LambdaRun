@@ -68,8 +68,9 @@
 (define city 
   (make-area
    city-map
-   
-   'lr;long road
+
+   ;long road
+   'lr
    (let ((here (make-entity
                 (make-template
                  "Long road"
@@ -85,16 +86,18 @@
                                      "    /        /"
                                      "   /        /"))))))
      here)
-   
-   'by;back yard
+
+   ;back yard
+   'by
    (let ((here (make-entity
                 (make-template
                  "Backyard"
                  room
                  (description "Pretty big for such a small house.")))))
      here)
-   
-   'x0;cross road
+
+   ;cross road
+   'x0
    (let ((here (make-entity
                 (make-template
                  "Crossroad"
@@ -111,15 +114,17 @@
                                      "   /        /"))
                                    ))))
      here)
-   
-   'pk;park
+
+   ;park
+   'pk
    (make-entity
     (make-template
      "Park"
      room
      (description "The park is closed for maintainance")))
    
-   'ge;gang hideout entrance
+   ;gang hideout entrance
+   'ge
    (let ((here (make-entity
                 (make-template
                  "Hydra hideout entrance"
@@ -138,8 +143,9 @@
      (ask (make-entity dessert-pigeon) 'give guard)
      (ask (make-key-card "blue-card") 'give guard)
      here)
-   
-   'hr;huge room
+
+   ;huge room
+   'hr
    (let ((here (make-entity
                 (make-template
                  "Huge room"
@@ -156,8 +162,9 @@
      (ask (make-entity johnson-gun) 'give gangster2)
      (ask (make-entity small-medkit) 'drop here)
      here)
-   
-   'wc;toilet
+
+   ;toilet
+   'wc
    (let ((here (make-entity
                 (make-template
                  "Toilet"
@@ -169,8 +176,9 @@
                                                              "You wonder if it is really yellow or is it ..."))
                                          yellow-card))
      here)
-   
-   'sr;storage room
+
+   ;storage room
+   'sr
    (let ((here (make-entity
                 (make-template
                  "Storage room"
@@ -195,8 +203,9 @@
            (lambda (i)
              (ask (make-entity big-medkit) 'give crate)))
      here)
-   
-   'cr;corridor
+
+   ;corridor
+   'cr
    (let ((here (make-entity
                 (make-template
                  "Corridor"
@@ -213,8 +222,9 @@
      (ask (make-entity johnson-gun) 'give gangster2)
      (ask rainbow-card 'give gangster3)
      here)
-   
-   'sv;server room
+
+   ;server room
+   'sv
    (let* ((first-entrance #t)
           (here (make-entity
                  (make-template
@@ -246,8 +256,9 @@
      (set! server the-server)
      (ask server 'move-to here)
      here)
-  
-   'ho;home
+
+   ;home
+   'ho
    (let ((here (make-entity
                 (make-template
                  "Joe's house"

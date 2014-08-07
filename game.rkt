@@ -1,6 +1,7 @@
 (load "utils.rkt")
 (load-all
  '(;core packages
+   compat
    list
    oop
    entity   

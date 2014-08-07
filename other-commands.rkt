@@ -5,9 +5,9 @@
  (lambda params   
    (let ((current-room (ask main-character 'location)))
      (cond
-       ((= (length params) 0);look at room        
+       ((= (length params) 0) ;look at room
         (describe-room current-room))
-       ((= (length params) 1);look at object
+       ((= (length params) 1) ;look at object
         (let ((entities (ask current-room 'entities))
               (found #f))
           (ask entities 'for-each

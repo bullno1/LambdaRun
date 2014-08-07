@@ -1,5 +1,3 @@
-(require racket/mpair)
-
 (define (make-component name owner)
   (let ((base (make-named-object name)))
     (lambda (message)

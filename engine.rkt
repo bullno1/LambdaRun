@@ -1,17 +1,17 @@
 (define (tokenize string)
   (map
-   (lambda (token);try to convert number if possible
+   (lambda (token) ;try to convert number if possible
      (let ((number (string->number token)))
        (cond
-         (number number)
+         ((not (equal? number +nan.0)) number)
          ((or (equal? token "me")
               (equal? token "self"))
           "you")
          (else token))))
-   (filter;remove blank tokens
+   (filter ;remove blank tokens
     (lambda (token)
       (not (equal? "" token)))
-    (regexp-split (regexp " ") string))))
+    (string-split string " "))))
 
 (define name->proc '())
 (define name->descriptor '())
@@ -84,7 +84,14 @@
     (if (not time-passed)
         (prompt-and-execute-command))))
 
+(define game-running #t)
+
+(define (end-game)
+  (set! game-running #f))
+
 (define (start-game-loop)
-  (update-tickers)
-  (update-actors)
-  (start-game-loop))
+  (if game-running
+    (begin
+      (update-tickers)
+      (update-actors)
+      (start-game-loop))))

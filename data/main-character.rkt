@@ -37,7 +37,8 @@
    
    'destroy
    (lambda (self)
-     (print-lines "Game over :("))))
+     (print-lines "Game over :(")
+     (end-game))))
 
 (define main-character
   (make-entity

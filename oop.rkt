@@ -8,9 +8,9 @@
 
     (if (method? method)
 
-	(apply method (cons object args))
+    (apply method (cons object args))
 
-	(error "No method" message (cadr method)))))
+    (error "No method" message (cadr method)))))
 
 
 
