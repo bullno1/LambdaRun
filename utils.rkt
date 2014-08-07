@@ -8,10 +8,13 @@
       (else #f))))
 
 (define (load-all files)
+  (display "Loading")
   (for-each
    (lambda (file)
-     (load (string-append (symbol->string file) ".rkt")))
-   files))
+     (load (string-append (symbol->string file) ".rkt"))
+	 (display "."))
+   files)
+  (newline))
 
 (define command-queue '())
 
