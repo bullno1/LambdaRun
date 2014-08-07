@@ -56,8 +56,8 @@
    (let* ((skill (dict-get skill-set (string->symbol skill-name) #f))
           (target (get-object-in-room target-name)))
      (cond
-       ((not skill) (display-lines "You don't know such skills"))
-       ((not target) (display-lines "Target is not this room"))
+       ((not skill) (display-multi "You don't know such skills"))
+       ((not target) (display-multi "Target is not this room"))
        (else
         (skill main-character target))))))
 
@@ -67,4 +67,5 @@
    (vararg? #f))
  (lambda ()
    (apply print-lines (cons "Here are the skills that you have:"
-                              (map car skill-set)))))
+                              (map car skill-set)))
+   #f))
