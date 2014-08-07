@@ -5,21 +5,29 @@
 (register-command 
  '((names (help h ?))
    (args ())
-   (vararg? #t))
+   (vararg? #f))
  
- (lambda command
-   (if (null? command)
-       (print-lines
-        "Usage:"
-        "'help <command>' to know more about a command"
-        "'help <topic>' to know more about a topic"
-        "'help commands' for a list of commands"
-        "'help topics' for a list of topics")
-       (let* ((arg (car command))
-              (descriptor (dict-get name->descriptor arg))
-              (info (dict-get topics arg)))
-         (cond 
-           (info
-            (apply print-lines info))
-           (else (print-lines "I know nothing about that")))))
+ (lambda ()
+   (print-lines
+     "Available commands (alias in parenthesis):"
+     " Movement"
+     " (n)orth: Move north"
+     " (s)outh: Move south"
+     " (w)est: Move west"
+     " (e)ast: Move east"
+     ""
+     " Interaction"
+     " (eq)uip <item>: Equip an item in your inventory"
+     " (l)ook [target]: Look at target or the surrounding if target is not given"
+     " (u)se <item> [target]: Use an item on a target or yourself if target is not given"
+     " (t)alk <character> [topic]: Talk to a character about a topic or greet them if topic is not given"
+     " (sk)ill <skill> <target>: Use a skill on a target"
+     " take <item>: Pick up an item"
+     ""
+     " Misc"
+     " (i)nventory: Show your inventory"
+     " (w)ait: Do nothing"
+     " drop: Drop an item"
+     " skills (sks): List your skills"
+     " help: Show this menu")
    #f))
